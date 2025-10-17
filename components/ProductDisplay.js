@@ -49,7 +49,7 @@ const productDisplay = {
         const brand = ref('SE 331')
         const productLink = ref('https://www.camt.cmu.ac.th')
         const inventory = ref(100)
-        const onSale = ref(true)
+        const onSale = ref(false)
         const details = ref([
             '50% cotton',
             '30% wool',
