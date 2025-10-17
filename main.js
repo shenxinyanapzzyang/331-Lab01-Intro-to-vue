@@ -19,6 +19,12 @@ const app = createApp({
                 cart.value[id] = 1
             }
         }
+        
+        function removeFromCart(id) {
+            if (cart.value[id]) {
+                delete cart.value[id];
+            }
+        }
         const product = ref('Boots')
         const brand = ref('SE 331')
         const productLink = ref('https://www.camt.cmu.ac.th')
@@ -76,11 +82,13 @@ const app = createApp({
             premium,
             addToCart,
             shipping,
-            addToCart
+            removeFromCart
         }
     }
 })
 
 app.component('product-display', productDisplay)
 app.component('product-details', productDetails)
+app.component('review-form', reviewForm)
+app.component('review-list', reviewList)
 app.mount('#app')

@@ -22,27 +22,19 @@
         <product-display 
           :premium="premium" 
           :shipping="shipping" 
-          @add-to-cart="addToCart">
+          @add-to-cart="addToCart"
+          @remove-from-cart="removeFromCart">
         </product-display>
         
-        <!-- 购物车显示区域 -->
-        <div class="cart">
-            <h2>购物车</h2>
-            <div v-if="Object.keys(cart).length === 0">
-                购物车为空
-            </div>
-            <div v-else>
-                <div v-for="(quantity, id) in cart" :key="id" class="cart-item">
-                    <p>产品ID: {{ id }} - 数量: {{ quantity }}</p>
-                </div>
-            </div>
-        </div>
+
     </div>  
     
 
     <!-- Import Js -->
     <script src="./components/product-details.js"></script> 
     <script src="./components/ProductDisplay.js"></script>
+    <script src="./components/ReviewForm.js"></script>
+    <script src="./components/ReviewList.js"></script>
     <script src="./main.js"></script>
 </body>
 

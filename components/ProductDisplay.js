@@ -35,7 +35,10 @@ const productDisplay = {
                     Add To Cart
                 </button>
             </div>
+            <review-list :reviews="reviews"></review-list>
+            <review-form @review-submitted="addReview"></review-form>
             <button class="button" @click="toggleInStock">Toggle In Stock</button>
+            <button class="button" @click="removeFromCart">Remove From Cart</button>
             <p>Sizes: {{ sizes.join(', ') }}</p>
         </div>
     </div>
@@ -45,37 +48,41 @@ const productDisplay = {
         shipping: [String, Number] // 允许字符串或数字类型
     },
     setup(props,{emit}) {
-        const product = ref('Boots')
-        const brand = ref('SE 331')
-        const productLink = ref('https://www.camt.cmu.ac.th')
-        const inventory = ref(100)
-        const onSale = ref(false)
-        const details = ref([
+        const reviews = Vue.ref([])
+        function addReview(review) {
+            reviews.value.push(review)
+        }
+        const product = Vue.ref('Boots')
+        const brand = Vue.ref('SE 331')
+        const productLink = Vue.ref('https://www.camt.cmu.ac.th')
+        const inventory = Vue.ref(100)
+        const onSale = Vue.ref(false)
+        const details = Vue.ref([
             '50% cotton',
             '30% wool',
             '20% polyester'
         ])
-        const variants = ref([
+        const variants = Vue.ref([
             { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 50 },
             { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0 }
         ])
-        const selectedVariant = ref(0)
-        const sizes = ref(['S', 'M', 'L'])
-        const cart = ref(0)
+        const selectedVariant = Vue.ref(0)
+        const sizes = Vue.ref(['S', 'M', 'L'])
+        const cart = Vue.ref(0)
         
         function updateVariant(index) {
             selectedVariant.value = index;
         }
         
-        const image = computed(() => {
+        const image = Vue.computed(() => {
             return variants.value[selectedVariant.value].image
         })
         
-        const inStock = computed(() => {
+        const inStock = Vue.computed(() => {
             return variants.value[selectedVariant.value].quantity
         })
         
-        const saleMessage = computed(() => {
+        const saleMessage = Vue.computed(() => {
             if (onSale.value) {
                 return brand.value + ' ' + product.value + ' is on sale';
             }
@@ -86,7 +93,7 @@ const productDisplay = {
             emit('add-to-cart',variants.value[selectedVariant.value].id)
         }
         
-        const title = computed(() => {
+        const title = Vue.computed(() => {
             return brand.value + ' ' + product.value
         })
         
@@ -94,9 +101,13 @@ const productDisplay = {
             image.value = variantImage
         }
         
-        const toggleInStock = () => {
+        function toggleInStock() {
             const currentQuantity = variants.value[selectedVariant.value].quantity;
             variants.value[selectedVariant.value].quantity = currentQuantity > 0 ? 0 : 50;
+        }
+        
+        function removeFromCart() {
+            emit('remove-from-cart', variants.value[selectedVariant.value].id);
         }
         
         return {
@@ -116,7 +127,8 @@ const productDisplay = {
             addToCart,
             updateImage,
             updateVariant,
-            toggleInStock
+            toggleInStock,
+            removeFromCart
         }
     }
 }
