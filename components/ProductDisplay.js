@@ -44,7 +44,7 @@ const productDisplay = {
         premium: Boolean,
         shipping: [String, Number] // 允许字符串或数字类型
     },
-    setup(props) {
+    setup(props,{emit}) {
         const product = ref('Boots')
         const brand = ref('SE 331')
         const productLink = ref('https://www.camt.cmu.ac.th')
@@ -83,7 +83,7 @@ const productDisplay = {
         })
         
         function addToCart() {
-            cart.value += 1
+            emit('add-to-cart',variants.value[selectedVariant.value].id)
         }
         
         const title = computed(() => {

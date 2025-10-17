@@ -1,7 +1,7 @@
 const {createApp,ref,computed} = Vue
 
 const app = createApp({
-    setup(){
+    setup(props,{emit}){
         const premium =ref(true)
         const shipping = computed(()=>{
             if (premium.value){
@@ -11,6 +11,14 @@ const app = createApp({
             }
            
         })
+        const cart=ref({})
+        function addToCart(id) {
+            if (cart.value[id]) {
+                cart.value[id] += 1
+            } else {
+                cart.value[id] = 1
+            }
+        }
         const product = ref('Boots')
         const brand = ref('SE 331')
         const productLink = ref('https://www.camt.cmu.ac.th')
@@ -32,16 +40,14 @@ const app = createApp({
             return variants.value[selectedVariant.value].quantity
         })
        const sizes = ref(['S', 'M', 'L'])
-       const cart=ref(0)
+       
        const saleMessage = computed(() => {
     if (onSale.value) {
         return brand.value + ' ' + product.value + ' is on sale';
     }
     return '';
        })
-      function addToCart() {
-            cart.value +=1
-        }
+      
       const title = computed(() =>{
             return brand.value + ' ' + product.value
         })
@@ -70,6 +76,7 @@ const app = createApp({
             premium,
             addToCart,
             shipping,
+            addToCart
         }
     }
 })
